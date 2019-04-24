@@ -1,0 +1,15 @@
+<h2>Current project ideas</h2>
+
+{% if ideas_list %}
+	<ul>
+	{% for idea in ideas_list %}
+		<li><a href="{% url 'ideas:detail' idea.id %}">{{ idea.idea_text }}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Out of ideas</p>
+{% endif %}
+
+<a href="{% url 'ideas:add_idea' %}">Add idea</a>
+
+<h2>Current user - {{ user.username }}</h2>

@@ -1,0 +1,8 @@
+<h2>Change idea</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit idea</button>
+</form>
+<h2>Current user - {{ user.username }}</h2>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

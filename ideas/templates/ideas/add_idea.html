@@ -1,0 +1,7 @@
+<h2>Add idea</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit idea</button>
+</form>
+<h2>Current user - {{ user.username }}</h2>
