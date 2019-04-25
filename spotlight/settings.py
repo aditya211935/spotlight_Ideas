@@ -91,6 +91,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'adityadjango@gmail.com'
+EMAIL_HOST_PASSWORD = 'Django123'
+
 SOCIAL_AUTH_GITHUB_KEY = '29719b3ec5e21096794e'
 SOCIAL_AUTH_GITHUB_SECRET = '5c094688be71200e3df5337175f82b7de9262502'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'

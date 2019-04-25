@@ -45,7 +45,9 @@ def add_idea(request):
 			idea_text = form.cleaned_data.get('idea_text')
 			user = CustomUser.objects.get(username=request.user)
 			Idea.objects.create(user=request.user, idea_text=idea_text)
-			return HttpResponseRedirect(reverse('ideas:ideas_home'))
+			x = HttpResponseRedirect(reverse('ideas:ideas_home'))
+			pprint(x)
+			return x
 	else:
 		form = AddIdeaForm()
 	return render(request, 'ideas/add_idea.html', {'form': form})
@@ -95,8 +97,9 @@ def downvote(request, idea_id):
 	idea.save()
 	return HttpResponseRedirect(reverse('ideas:detail', args=(idea_id,)))
 
-def email_reqd(request):
-	
+def add_info(request):
+	if request.session.get('new_details') is None:
+		raise Http404
 	if request.method == 'POST':
 		form = emailReqdForm(request.POST)
 		if form.is_valid():
