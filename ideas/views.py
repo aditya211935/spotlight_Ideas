@@ -24,7 +24,7 @@ def signup(request):
 			return HttpResponseRedirect(reverse('ideas:ideas_home'))
 	else:
 		form = SignUpForm()
-	return render(request, 'ideas/signup.html', {'form': form})
+	return render(request, 'ideas/temp.html', {'form': form, 'heading': "Sign up", 'button': "Sign up"})
 
 @login_required(login_url=reverse_lazy('ideas:login'))
 def ideas_view(request):
@@ -52,7 +52,7 @@ def add_idea(request):
 			return x
 	else:
 		form = AddIdeaForm()
-	return render(request, 'ideas/add_idea.html', {'form': form})
+	return render(request, 'ideas/temp.html', {'form': form, 'heading': "Add idea", 'button': "Submit"})
 	
 @login_required(login_url=reverse_lazy('ideas:login'))		
 def change_idea(request, idea_id):
@@ -63,7 +63,7 @@ def change_idea(request, idea_id):
 			if form.is_valid():
 				idea.idea_text = form.cleaned_data.get('idea_text')
 				idea.save()
-				return HttpResponseRedirect(reverse('ideas:ideas_home'))
+				return render(request, 'ideas/temp.html', {'form': form, 'heading': "Change idea", 'button': "Submit"})
 		else:
 			form = AddIdeaForm(instance=idea)
 		return render(request, 'ideas/change_idea.html', {'form': form})
@@ -100,7 +100,7 @@ def share_idea(request, idea_id):
 			return HttpResponseRedirect(link)
 	else:
 		form = shareIdeaForm()
-	return render(request, 'ideas/share_idea.html', {'form': form})
+	return render(request, 'ideas/temp.html', {'form': form, 'heading': "Share idea", 'button': "Submit"})
 	
 
 @login_required(login_url=reverse_lazy('ideas:login'))		
@@ -127,7 +127,7 @@ def add_info(request):
 			return HttpResponseRedirect(reverse('social:complete', args=("github",)))		
 	else:
 		form = emailReqdForm(request.session['new_details'])
-	return render(request, "ideas/add_info.html", {'form': form})
+	return render(request, 'ideas/temp.html', {'form': form, 'heading': "Please provide additional information", 'button': "Submit"})
 			
 @login_required(login_url=reverse_lazy('ideas:login'))
 def add_comment(request, idea_id):
@@ -141,4 +141,4 @@ def add_comment(request, idea_id):
 			return HttpResponseRedirect(reverse('ideas:detail', args=(idea_id,)))
 	else:
 		form = addCommentForm()
-	return render(request, "ideas/add_comment.html", {'form': form})
+	return render(request, 'ideas/temp.html', {'form': form, 'heading': "Add comment", 'button': "Submit"})

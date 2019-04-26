@@ -4,6 +4,7 @@
 <p>{{ idea.votes }} votes</p>
 
 <ul>
+	<li><strong><a href="{% url 'ideas:ideas_home' %}">Home</a></strong></li>
 	<li><a href="{% url 'ideas:upvote' idea.id %}">Upvote</a></li>
 	<li><a href="{% url 'ideas:downvote' idea.id %}">Downvote</a></li>
 	<li><a href="{% url 'ideas:change_idea' idea.id %}">Change idea</a></li>
@@ -20,4 +21,5 @@
 </ul>
 
 <h2>Current user - {{ user.username }}</h2>
+<a href="{% url 'ideas:logout' %}">Logout</a>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

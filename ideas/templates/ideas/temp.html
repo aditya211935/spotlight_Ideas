@@ -1,8 +1,10 @@
-<h2>Share idea</h2>
+<h2>{{ heading }}</h2>
+<strong><a href="{% url 'ideas:ideas_home' %}">Home</a></strong>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Share</button>
+  <button type="submit">{{ button }}</button>
 </form>
 <h2>Current user - {{ user.username }}</h2>
+<a href="{% url 'ideas:logout' %}">Logout</a>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
