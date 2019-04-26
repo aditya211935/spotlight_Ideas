@@ -10,6 +10,7 @@ urlpatterns = [
 	path('accounts/signup', views.signup, name='signup'),
 	path('<int:idea_id>/', views.detail, name='detail'),
 	path('<int:idea_id>/upvote', views.upvote, name='upvote'),
+	path('<int:idea_id>/share', views.share_idea, name='share_idea'),
 	path('<int:idea_id>/downvote', views.downvote, name='downvote'),
 	path('add_idea/', views.add_idea, name='add_idea'),
 	path('add_info/', views.add_info, name='add_info'),

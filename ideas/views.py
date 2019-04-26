@@ -4,10 +4,12 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.urls import reverse_lazy, reverse
+from django.conf import settings
+from django.core.mail import send_mail
 
 from pprint import pprint
 
-from .forms import SignUpForm,AddIdeaForm,emailReqdForm
+from .forms import SignUpForm, AddIdeaForm, emailReqdForm, shareIdeaForm
 from .models import Idea, CustomUser
 
 def signup(request):
@@ -44,9 +46,9 @@ def add_idea(request):
 			#create idea object, populate time, user, idea_text
 			idea_text = form.cleaned_data.get('idea_text')
 			user = CustomUser.objects.get(username=request.user)
-			Idea.objects.create(user=request.user, idea_text=idea_text)
+			Idea.objects.create(user=user, idea_text=idea_text)
 			x = HttpResponseRedirect(reverse('ideas:ideas_home'))
-			pprint(x)
+			#pprint(x)
 			return x
 	else:
 		form = AddIdeaForm()
@@ -82,6 +84,24 @@ def delete_idea(request, idea_id):
 			'idea': idea,
 			'error_message': "Sorry! You're not authorized for this."
 		})
+		
+@login_required(login_url=reverse_lazy('ideas:login'))			
+def share_idea(request, idea_id):
+	idea = get_object_or_404(Idea, pk=idea_id)
+	if request.method == 'POST':
+		form = shareIdeaForm(request.POST)
+		if form.is_valid():
+			link = reverse('ideas:detail', args=(idea_id,))
+			subject = "Idea share "
+			message = "Hi! A new idea been shared with you by %s.\nLink: %s" % (request.user, link)
+			host = settings.EMAIL_HOST_USER
+			recipient = [form.cleaned_data.get('email'),]
+			send_mail(subject, message, host, recipient)
+			return HttpResponseRedirect(link)
+	else:
+		form = shareIdeaForm()
+	return render(request, 'ideas/share_idea.html', {'form': form})
+	
 
 @login_required(login_url=reverse_lazy('ideas:login'))		
 def upvote(request, idea_id):
