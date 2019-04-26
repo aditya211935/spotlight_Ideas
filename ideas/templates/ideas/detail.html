@@ -9,6 +9,15 @@
 	<li><a href="{% url 'ideas:change_idea' idea.id %}">Change idea</a></li>
 	<li><a href="{% url 'ideas:delete_idea' idea.id %}">Delete idea</a></li>
 	<li><a href="{% url 'ideas:share_idea' idea.id %}">Share idea</a></li>
+	<li><a href="{% url 'ideas:add_comment' idea.id %}">Add comment</a></li>
 </ul>
+
+<h3>Comments</h3>
+<ul>
+	{% for comment in idea.comment_set.all %}
+		<li>{{ comment.comment_text }}, by <strong>{{ comment.user.username }}</strong></li>
+	{% endfor %}
+</ul>
+
 <h2>Current user - {{ user.username }}</h2>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

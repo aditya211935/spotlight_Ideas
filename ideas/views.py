@@ -9,8 +9,8 @@ from django.core.mail import send_mail
 
 from pprint import pprint
 
-from .forms import SignUpForm, AddIdeaForm, emailReqdForm, shareIdeaForm
-from .models import Idea, CustomUser
+from .forms import SignUpForm, AddIdeaForm, emailReqdForm, shareIdeaForm, addCommentForm
+from .models import Idea, CustomUser, Comment
 
 def signup(request):
 	if request.method == 'POST':
@@ -129,4 +129,16 @@ def add_info(request):
 		form = emailReqdForm(request.session['new_details'])
 	return render(request, "ideas/add_info.html", {'form': form})
 			
-			
+@login_required(login_url=reverse_lazy('ideas:login'))
+def add_comment(request, idea_id):
+	if request.method == 'POST':
+		form = addCommentForm(request.POST)
+		if form.is_valid():
+			user = get_object_or_404(CustomUser, username=request.user)
+			idea = get_object_or_404(Idea, pk=idea_id)
+			comment_text = form.cleaned_data.get('comment')
+			Comment.objects.create(user=user, idea=idea, comment_text=comment_text)
+			return HttpResponseRedirect(reverse('ideas:detail', args=(idea_id,)))
+	else:
+		form = addCommentForm()
+	return render(request, "ideas/add_comment.html", {'form': form})

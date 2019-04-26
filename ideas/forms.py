@@ -27,3 +27,6 @@ class emailReqdForm(forms.Form):
 	
 class shareIdeaForm(forms.Form):
 	email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+	
+class addCommentForm(forms.Form):
+	comment = forms.CharField(max_length=300, required=True, help_text="add comment")
