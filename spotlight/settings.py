@@ -74,6 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'spotlight.wsgi.application'
 
 LOGIN_REDIRECT_URL = '/ideas'
+LOGOUT_REDIRECT_URL = 'ideas:login'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
