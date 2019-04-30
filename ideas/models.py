@@ -23,4 +23,4 @@ class Comment(models.Model):
 	pub_date = models.DateTimeField(default = now)
     
 	def __str__(self):
-		return self.idea_text + ", " + self.comment_text
+		return self.idea.idea_text + ", " + self.comment_text
